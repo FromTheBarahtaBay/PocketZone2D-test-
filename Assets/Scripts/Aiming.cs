@@ -19,6 +19,7 @@ public class Aiming : MonoBehaviour
     void FixedUpdate()
     {
         if (!_playerMove._playDeathAnimationOneTime) return;
+
         if (_fixedJoystick.Horizontal != 0 || _fixedJoystick.Vertical != 0)
         {
             rotZ = Mathf.Atan2(_fixedJoystick.Vertical, _fixedJoystick.Horizontal) * Mathf.Rad2Deg;

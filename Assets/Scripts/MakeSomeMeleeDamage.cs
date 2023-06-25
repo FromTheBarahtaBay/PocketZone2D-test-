@@ -1,3 +1,4 @@
+using System.Security.Cryptography;
 using UnityEngine;
 
 [RequireComponent(typeof(TargetSystem), typeof (Animator))]
@@ -54,7 +55,7 @@ public class MakeSomeMeleeDamage : MonoBehaviour
             if (enemy.gameObject.layer != gameObject.layer)
             {
                 int damage = Random.Range(_minDamage, _maxDamage);
-                print($"{gameObject.name} hit {enemy.gameObject.name} by {damage}");
+                print($"{transform.parent.gameObject.name} hit {enemy.gameObject.name} by {damage}");
                 enemy.gameObject.GetComponent<HealthBarController>().TakeDamageForHealthBar(damage);
             }
         }

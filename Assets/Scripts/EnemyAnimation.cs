@@ -27,7 +27,7 @@ public class EnemyAnimation : MonoBehaviour
         _flip = transform.eulerAngles;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         if (!_targetToMove) return;
 
@@ -35,6 +35,7 @@ public class EnemyAnimation : MonoBehaviour
         {
             _playDeathAnimationOneTime = false;
             _animator.Play("Death");
+            transform.parent.gameObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
             Instantiate(_itemToDrop, new Vector3(Random.Range(transform.position.x - 2, transform.position.x +2), Random.Range(transform.position.y - 2, transform.position.y + 2), 0f), Quaternion.identity);
         }
 
