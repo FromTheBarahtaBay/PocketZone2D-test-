@@ -4,27 +4,50 @@ public class PickUpScript : MonoBehaviour
 {
     public GameObject _slotButton;
 
-    private InventoryScript _inventory;
+    [SerializeField] private InventoryScript _inventoryScript;
 
-    private void Start()
+    
+
+    private void Awake()
     {
-        _inventory = GameObject.FindGameObjectWithTag("Player").GetComponent<InventoryScript>();
+        _inventoryScript = GameObject.FindGameObjectWithTag("Inventory").GetComponent<InventoryScript>();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
-        {
-            for(int i = 0; i < _inventory._slots.Length; i++)
+        {            
+            for (int i = 0; i < _inventoryScript._countOfSlots; i++)
             {
-                if (!_inventory._isFull[i])
+                if (!_inventoryScript.IsFull[i])
                 {
-                    _inventory._isFull[i] = true;
-                    Instantiate(_slotButton, _inventory._slots[i].transform);
+                    if (PutInTheSameSlot(i,"Ammo") || PutInTheSameSlot(i, "Makarov")) continue;
+
+                    _inventoryScript.CurrentCountOfItemsInSlot[i]++;
+
+                    if (_inventoryScript.CurrentCountOfItemsInSlot[i] >= _inventoryScript._maxCountOfItemsInSlot)                    
+                        _inventoryScript.IsFull[i] = true;
+                                                            
+                    print($"Подобран {transform.gameObject.name}, в ячейке {_inventoryScript.Slots[i].name} его {_inventoryScript.CurrentCountOfItemsInSlot[i]} шт.");
+
+                    Instantiate(_slotButton, _inventoryScript.Slots[i].transform);
                     Destroy(this.gameObject);
                     break;
                 }
             }
         }
+    }
+
+    private bool FindNameOfItemInSlot (GameObject slot, string str)
+    {
+        foreach (Transform child in slot.transform)        
+            if (child.gameObject.name.Contains(str) && child.gameObject.CompareTag("Item")) return true;       
+
+        return false;
+    }
+
+    private bool PutInTheSameSlot(int i, string str)
+    {
+        return FindNameOfItemInSlot(_inventoryScript.Slots[i], str) && !transform.gameObject.name.Contains(str);
     }
 }

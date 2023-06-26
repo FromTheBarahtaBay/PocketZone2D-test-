@@ -4,7 +4,6 @@ public class SpawnItemScript : MonoBehaviour
 {
     public GameObject _item;
     private Transform _player;
-
     
     private void Start()
     {

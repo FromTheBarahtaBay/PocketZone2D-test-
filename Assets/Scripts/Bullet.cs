@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    [SerializeField] private int _minDamage = 15;
+    [SerializeField] private int _minDamage = 20;
     [SerializeField] private int _maxDamage = 35;
     private bool _isActive = true;
     private HealthBarController _healthBarController;
